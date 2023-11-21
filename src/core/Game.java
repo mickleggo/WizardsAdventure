@@ -1,21 +1,28 @@
 package core;
-
+import objects.Box;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
-public class Game extends Canvas implements Runnable{
 
+
+public class Game extends Canvas implements Runnable{
+	
+	private static final long serialVersionUID = 1L;
 	private final int WIDTH = 1000, HEIGHT = 563;
 	private final String title = "A Wizards Adventures";
 	
 	private boolean isRunning = false;
 	private Thread thread;
+	private Handler handler;
 	
 	public Game() {
 		new Window(WIDTH, HEIGHT, title, this);
 		start();
+		handler = new Handler();
+		
+		handler.addObject(new Box(100, 100));
 	}
 	
 	private void start() {
@@ -36,7 +43,7 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	public void tick() {
-		
+		handler.tick();
 	}
 	
 	public void render() {
@@ -53,6 +60,8 @@ public class Game extends Canvas implements Runnable{
 		
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
+		
+		handler.render(g);
 		
 		/******************************************************************/
 		
