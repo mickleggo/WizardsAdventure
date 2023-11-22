@@ -1,12 +1,13 @@
 package objects;
-import core.GameObject;
 import java.awt.*;
+import core.GameObject;
+import framework.ObjectID;
 
 
 public class Box extends GameObject {
 	
-	public Box (int x, int y) {
-		super(x, y);
+	public Box (int x, int y, ObjectID id) {
+		super(x, y, id);
 	}
 	
 	public void tick() {

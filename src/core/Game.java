@@ -1,10 +1,10 @@
 package core;
 import objects.Box;
+import framework.ObjectID;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-
 
 
 public class Game extends Canvas implements Runnable{
@@ -22,7 +22,7 @@ public class Game extends Canvas implements Runnable{
 		start();
 		handler = new Handler();
 		
-		handler.addObject(new Box(100, 100));
+		handler.addObject(new Box(100, 100, ObjectID.Box));
 	}
 	
 	private void start() {
