@@ -1,6 +1,7 @@
 package objects;
 import java.awt.*;
-import core.GameObject;
+
+import framework.GameObject;
 import framework.ObjectID;
 
 

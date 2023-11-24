@@ -1,7 +1,6 @@
-package core;
+package framework;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import framework.ObjectID;
 
 public abstract class GameObject {
 	

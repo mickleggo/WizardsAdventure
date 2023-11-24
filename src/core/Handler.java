@@ -2,6 +2,8 @@ package core;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
+import framework.GameObject;
+
 public class Handler {
 
 	LinkedList<GameObject> object = new LinkedList<GameObject>();

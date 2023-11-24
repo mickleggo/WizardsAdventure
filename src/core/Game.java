@@ -13,20 +13,23 @@ public class Game extends Canvas implements Runnable{
 	private boolean isRunning = false;
 	private BufferedImage level = null;
 	
-	
 	private Thread thread;
 	private Handler handler;
+	private Camera cam;
 	
 	public Game() {
 		new Window(WIDTH, HEIGHT, title, this);
 		start();
-		handler = new Handler();
+		handler = new Handler();	
+		
+		cam = new Camera(0, 0, WIDTH, HEIGHT);
 		this.addKeyListener(new KeyInput(handler));
 		
 		BufferedImageLoader loader = new BufferedImageLoader();
 		level = loader.loadImage("/testMap.png");
 		
 		loadLevel(level);
+		
 	}
 	
 	private void start() {
@@ -47,6 +50,11 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	public void tick() {
+		for(int i = 0; i < handler.object.size(); i++) {
+			if(handler.object.get(i).getId() == ObjectID.Player) { 
+				cam.tick(handler.object.get(i)); 
+			}
+		}
 		handler.tick();
 	}
 	
@@ -58,6 +66,7 @@ public class Game extends Canvas implements Runnable{
 		}
 		
 		Graphics g = bs.getDrawGraphics();
+		Graphics2D g2d = (Graphics2D) g;
 		
 		/******************************************************************/
 		// Draw to screen
@@ -65,7 +74,11 @@ public class Game extends Canvas implements Runnable{
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
+		g2d.translate(-cam.getX(), -cam.getY());
+		
 		handler.render(g);
+		
+		g2d.translate(cam.getX(), cam.getY());
 		
 		/******************************************************************/
 		
@@ -76,6 +89,9 @@ public class Game extends Canvas implements Runnable{
 	private void loadLevel(BufferedImage image) {
 		int w = image.getWidth();
 		int h = image.getHeight();
+		
+		cam.setMapW((w-31)*32);
+		cam.setMapH((h-16)*32);
 		
 		for(int xx = 0; xx < w; xx++) {
 			for (int yy = 0; yy < h; yy++) {

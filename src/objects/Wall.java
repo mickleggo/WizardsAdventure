@@ -1,5 +1,5 @@
 package objects;
-import core.GameObject;
+import framework.GameObject;
 import framework.ObjectID;
 
 import java.awt.Color;

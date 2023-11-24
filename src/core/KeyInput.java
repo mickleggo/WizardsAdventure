@@ -1,4 +1,5 @@
 package core;
+import framework.GameObject;
 import framework.ObjectID;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
