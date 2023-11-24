@@ -4,7 +4,7 @@ public enum ObjectID {
 	Player(),
 	Wall(),
 	Crate(),
-	Bullet(),
+	Spell_Thrown(),
 	Potion(),
 	Enemy(),
 	Box();

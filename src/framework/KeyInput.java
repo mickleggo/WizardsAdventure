@@ -1,8 +1,8 @@
-package core;
-import framework.GameObject;
-import framework.ObjectID;
+package framework;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import core.Handler;
 
 
 public class KeyInput extends KeyAdapter{

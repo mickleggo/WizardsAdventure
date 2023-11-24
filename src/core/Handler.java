@@ -6,7 +6,7 @@ import framework.GameObject;
 
 public class Handler {
 
-	LinkedList<GameObject> object = new LinkedList<GameObject>();
+	public LinkedList<GameObject> object = new LinkedList<GameObject>();
 	
 	private boolean up = false, down = false, left = false, right = false;
 	

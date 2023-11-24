@@ -5,8 +5,7 @@ import framework.GameObject;
 public class Camera {
 	
 	private float x, y;
-	private int w, h; //screen resolution
-	private int mapW, mapH; //map size
+	private int w, h, mapW, mapH; //w and h are screen resolution. other two are map size
 	
 	public Camera(float x, float y, int w, int h) {
 		this.x = x;

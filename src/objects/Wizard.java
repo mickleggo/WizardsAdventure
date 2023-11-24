@@ -2,7 +2,6 @@ package objects;
 import core.Handler;
 import framework.GameObject;
 import framework.ObjectID;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -21,6 +20,8 @@ public class Wizard extends GameObject {
 		x += velX;
 		y += velY;
 		
+		collision();
+		
 		//movement
 		if(handler.isUp()) { velY = -5; }
 		else if(!handler.isDown()) { velY = 0; }
@@ -36,13 +37,26 @@ public class Wizard extends GameObject {
 		
 	}
 	
+	public void collision() {
+		for(int i = 0; i < handler.object.size(); i++) {
+			GameObject tempObject = handler.object.get(i);
+			
+			if(tempObject.getId() == ObjectID.Wall) {
+				if(getBounds().intersects(tempObject.getBounds())) {
+					x += velX * -1;
+					y += velY * -1;
+				}
+			}
+		}
+	}
+	
 	public void render(Graphics g) {
 		g.setColor(Color.GREEN);
-		g.fillRect(x, y, 32, 48);
+		g.fillRect(x, y, 26, 26);
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, 32, 48);
+		return new Rectangle(x, y, 26, 26);
 	}
 }
 

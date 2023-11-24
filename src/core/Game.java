@@ -1,8 +1,10 @@
 package core;
+import framework.*;
 import objects.*;
-import framework.ObjectID;
 import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+
 
 public class Game extends Canvas implements Runnable{
 	
@@ -24,6 +26,7 @@ public class Game extends Canvas implements Runnable{
 		
 		cam = new Camera(0, 0, WIDTH, HEIGHT);
 		this.addKeyListener(new KeyInput(handler));
+		this.addMouseListener(new MouseInput(handler, cam));
 		
 		BufferedImageLoader loader = new BufferedImageLoader();
 		level = loader.loadImage("/testMap.png");
