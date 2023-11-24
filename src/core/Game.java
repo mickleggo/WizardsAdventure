@@ -1,11 +1,8 @@
 package core;
-import objects.Box;
+import objects.*;
 import framework.ObjectID;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
-
+import java.awt.*;
+import java.awt.image.*;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -14,6 +11,9 @@ public class Game extends Canvas implements Runnable{
 	private final String title = "A Wizards Adventures";
 	
 	private boolean isRunning = false;
+	private BufferedImage level = null;
+	
+	
 	private Thread thread;
 	private Handler handler;
 	
@@ -21,8 +21,12 @@ public class Game extends Canvas implements Runnable{
 		new Window(WIDTH, HEIGHT, title, this);
 		start();
 		handler = new Handler();
+		this.addKeyListener(new KeyInput(handler));
 		
-		handler.addObject(new Box(100, 100, ObjectID.Box));
+		BufferedImageLoader loader = new BufferedImageLoader();
+		level = loader.loadImage("/testMap.png");
+		
+		loadLevel(level);
 	}
 	
 	private void start() {
@@ -67,6 +71,24 @@ public class Game extends Canvas implements Runnable{
 		
 		g.dispose();
 		bs.show();
+	}
+	
+	private void loadLevel(BufferedImage image) {
+		int w = image.getWidth();
+		int h = image.getHeight();
+		
+		for(int xx = 0; xx < w; xx++) {
+			for (int yy = 0; yy < h; yy++) {
+				int pixel = image.getRGB(xx, yy);
+				int red = (pixel >> 16) & 0xff;
+				int green = (pixel >> 8) & 0xff;
+				int blue = (pixel) & 0xff;
+				
+				if(red == 255 && green == 0 && blue == 0) { handler.addObject(new Wall(xx*32, yy*32, ObjectID.Wall)); }
+				if(red == 0 && green == 0 && blue == 255) { handler.addObject(new Wizard(xx*32, yy*32, ObjectID.Player, handler)); }
+				
+			}
+		}
 	}
 	
 	public void run() {

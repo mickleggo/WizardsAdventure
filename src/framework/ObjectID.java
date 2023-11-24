@@ -2,7 +2,7 @@ package framework;
 
 public enum ObjectID {
 	Player(),
-	Block(),
+	Wall(),
 	Crate(),
 	Bullet(),
 	Potion(),
