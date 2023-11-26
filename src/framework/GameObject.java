@@ -1,19 +1,20 @@
 package framework;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 public abstract class GameObject {
 	
 	protected int x, y;
 	protected float velX = 0, velY = 0;
 	protected ObjectID id;
-	protected SpriteSheet ss;
+	protected BufferedImage img;
 	
-	public GameObject(int x, int y, ObjectID id, SpriteSheet ss) {
+	public GameObject(int x, int y, ObjectID id, BufferedImage img) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
-		this.ss = ss;
+		this.img = img;
 	}
 
 	public abstract void tick();

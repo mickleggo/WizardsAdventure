@@ -2,7 +2,6 @@ package objects;
 import core.Handler;
 import framework.GameObject;
 import framework.ObjectID;
-import framework.SpriteSheet;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -10,16 +9,14 @@ import java.util.Random;
 
 public class Enemy extends GameObject {
 	
-	private BufferedImage enemy_img;
 	private Handler handler;
 	Random r = new Random();
 	int choose = 0;
 	int hp = 100;
 	
-	public Enemy(int x, int y, ObjectID id, Handler handler, SpriteSheet ss) {
-		super(x, y, id, ss);
+	public Enemy(int x, int y, ObjectID id, Handler handler, BufferedImage img) {
+		super(x, y, id, img);
 		this.handler = handler;
-		enemy_img = ss.grabImage(2, 2, 32, 32);
 	}
 	
 	public void tick() {
@@ -57,7 +54,7 @@ public class Enemy extends GameObject {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(enemy_img, x, y, null);
+		g.drawImage(img, x, y, null);
 		
 	}
 	

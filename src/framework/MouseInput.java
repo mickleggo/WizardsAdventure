@@ -5,6 +5,7 @@ import core.Handler;
 import objects.Spell_Thrown;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 
 public class MouseInput extends MouseAdapter {
@@ -12,9 +13,9 @@ public class MouseInput extends MouseAdapter {
 	private Handler handler;
 	private Camera cam;
 	private Game game;
-	private SpriteSheet ss;
+	private BufferedImage ss;
 
-	public MouseInput(Handler handler, Camera cam, Game game, SpriteSheet ss) {
+	public MouseInput(Handler handler, Camera cam, Game game, BufferedImage ss) {
 		this.handler = handler;
 		this.cam = cam;
 		this.game = game;

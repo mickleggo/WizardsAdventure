@@ -13,8 +13,6 @@ public class Game extends Canvas implements Runnable{
 	private final String title = "A Wizards Adventures";
 	
 	private boolean isRunning = false;
-	private BufferedImage level = null;
-	private BufferedImage sprites = null;
 	
 	private BufferedImage floor = null;
 	
@@ -24,7 +22,7 @@ public class Game extends Canvas implements Runnable{
 	private Thread thread;
 	private Handler handler;
 	private Camera cam;
-	private SpriteSheet ss;
+	private static Texture tex;
 	
 	public Game() {
 		new Window(WIDTH, HEIGHT, title, this);
@@ -35,16 +33,11 @@ public class Game extends Canvas implements Runnable{
 		this.addKeyListener(new KeyInput(handler));
 		
 		BufferedImageLoader loader = new BufferedImageLoader();
-		level = loader.loadImage("/testMap.png");
-		sprites = loader.loadImage("/sprites.png");
+		tex = new Texture(loader);
+		this.addMouseListener(new MouseInput(handler, cam, this, tex.getSpell()));
 		
-		ss = new SpriteSheet(sprites);
-		
-		floor = ss.grabImage(1, 1, 32, 32);
-		
-		this.addMouseListener(new MouseInput(handler, cam, this, ss));
-		
-		loadLevel(level);
+		loadLevel(tex.getLevel());
+		floor = tex.getFloor();
 		
 	}
 	
@@ -129,10 +122,10 @@ public class Game extends Canvas implements Runnable{
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel) & 0xff;
 				
-				if(red == 255 && green == 0 && blue == 0) { handler.addObject(new Wall(xx*32, yy*32, ObjectID.Wall, ss)); }
-				if(red == 0 && green == 0 && blue == 255) { handler.addObject(new Wizard(xx*32, yy*32, ObjectID.Player, handler, this, ss)); }
-				if(red == 255 && green == 255 && blue == 0) { handler.addObject(new Enemy(xx*32, yy*32, ObjectID.Enemy, handler, ss)); }
-				if(red == 128 && green == 255 && blue == 255) { handler.addObject(new Potion(xx*32, yy*32, ObjectID.Potion, ss)); }
+				if(red == 255 && green == 0 && blue == 0) { handler.addObject(new Wall(xx*32, yy*32, ObjectID.Wall, tex.getWall())); }
+				if(red == 0 && green == 0 && blue == 255) { handler.addObject(new Wizard(xx*32, yy*32, ObjectID.Player, handler, this, tex.getPlayer())); }
+				if(red == 255 && green == 255 && blue == 0) { handler.addObject(new Enemy(xx*32, yy*32, ObjectID.Enemy, handler, tex.getEnemy())); }
+				if(red == 128 && green == 255 && blue == 255) { handler.addObject(new Potion(xx*32, yy*32, ObjectID.Potion, tex.getPotion())); }
 			}
 		}
 	}

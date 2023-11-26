@@ -1,14 +1,13 @@
 package objects;
-import java.awt.*;
-
 import framework.GameObject;
 import framework.ObjectID;
-import framework.SpriteSheet;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 
 public class Box extends GameObject {
 	
-	public Box (int x, int y, ObjectID id, SpriteSheet ss) {
+	public Box (int x, int y, ObjectID id, BufferedImage ss) {
 		super(x, y, id, ss);
 	}
 	

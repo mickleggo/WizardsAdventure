@@ -1,6 +1,5 @@
 package objects;
-import core.Game;
-import core.Handler;
+import core.*;
 import framework.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,13 +9,14 @@ public class Wizard extends GameObject {
 	
 	Handler handler;
 	Game game;
-	private BufferedImage wizard_img;
+	Texture tex;
+//	private Animation playerWalk;
 
-	public Wizard(int x, int y, ObjectID id, Handler handler, Game game, SpriteSheet ss) {
-		super(x, y, id, ss);
+	public Wizard(int x, int y, ObjectID id, Handler handler, Game game, BufferedImage img) {
+		super(x, y, id, img);
 		this.handler = handler;
 		this.game = game;
-		wizard_img = ss.grabImage(2, 3, 32, 32);
+		
 	}
 	
 	public void tick() {
@@ -67,7 +67,7 @@ public class Wizard extends GameObject {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(wizard_img, x, y, null);
+		g.drawImage(img, x, y, null);
 	}
 	
 	public Rectangle getBounds() {
