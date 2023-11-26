@@ -22,7 +22,7 @@ public class Game extends Canvas implements Runnable{
 	private Thread thread;
 	private Handler handler;
 	private Camera cam;
-	private static Texture tex;
+	private Texture tex;
 	
 	public Game() {
 		new Window(WIDTH, HEIGHT, title, this);
@@ -32,8 +32,7 @@ public class Game extends Canvas implements Runnable{
 		cam = new Camera(0, 0, WIDTH, HEIGHT);
 		this.addKeyListener(new KeyInput(handler));
 		
-		BufferedImageLoader loader = new BufferedImageLoader();
-		tex = new Texture(loader);
+		tex = new Texture();
 		this.addMouseListener(new MouseInput(handler, cam, this, tex.getSpell()));
 		
 		loadLevel(tex.getLevel());
@@ -137,8 +136,8 @@ public class Game extends Canvas implements Runnable{
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
-		int updates = 0;
-		int frames = 0;
+//		int updates = 0;
+//		int frames = 0;
 		
 		while(isRunning) {
 			long now = System.nanoTime();
@@ -146,17 +145,17 @@ public class Game extends Canvas implements Runnable{
 			lastTime = now;
 			while(delta >= 1) {
 				tick();
-				updates++;
+				//updates++;
 				delta--;
 			}
 			render();
-			frames++;
+			//frames++;
 			
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				System.out.println("FPS: " + frames + " || TICKS: " + updates);
-				frames = 0;
-				updates = 0;
+				//System.out.println("FPS: " + frames + " || TICKS: " + updates);
+				//frames = 0;
+				//updates = 0;
 			}
 			
 		}

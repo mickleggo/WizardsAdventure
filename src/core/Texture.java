@@ -1,6 +1,7 @@
 package core;
-import framework.BufferedImageLoader;
+
 import framework.SpriteSheet;
+import loader.BufferedImageLoader;
 import java.awt.image.BufferedImage;
 
 
@@ -18,11 +19,10 @@ public class Texture {
 	public BufferedImage wall;
 	public BufferedImage potion;
 	
-	public Texture(BufferedImageLoader sheet) {
-		
-		level = sheet.loadImage("/testMap.png");
-		sprites = sheet.loadImage("/sprites.png");
-		
+	public Texture() {
+
+		level = BufferedImageLoader.getImage("testMap.png");
+		sprites = BufferedImageLoader.getImage("sprites.png");
 		ss = new SpriteSheet(sprites);
 		
 		floor = ss.grabImage(1, 1, 32, 32);
@@ -43,7 +43,7 @@ public class Texture {
 		
 	}
 	
-	public BufferedImage getLevel() { return level; }
+	public BufferedImage getLevel() { return (BufferedImage) level; }
 	public BufferedImage getFloor() { return floor; }
 	public BufferedImage getWall() { return wall; }
 	public BufferedImage getPotion() { return potion; }
