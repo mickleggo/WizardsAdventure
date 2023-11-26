@@ -2,19 +2,21 @@ package objects;
 import core.Handler;
 import framework.GameObject;
 import framework.ObjectID;
-
-import java.awt.Color;
+import framework.SpriteSheet;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 
 public class Spell_Thrown extends GameObject {
 	
 	private Handler handler;
+	private BufferedImage spell_img;
 	
-	public Spell_Thrown(int x, int y, int mx, int my, ObjectID id, Handler handler) {
-		super(x, y, id);
+	public Spell_Thrown(int x, int y, int mx, int my, ObjectID id, Handler handler, SpriteSheet ss) {
+		super(x, y, id, ss);
 		this.handler = handler;
+		this.spell_img = ss.grabImage(3, 1, 32, 32);
 		
 		velX = (mx - x) / 10;
 		velY = (my - y) / 10;
@@ -34,8 +36,7 @@ public class Spell_Thrown extends GameObject {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.fillOval(x, y, 8, 8);
+		g.drawImage(spell_img, x, y, null);
 	}
 	
 	public Rectangle getBounds() {

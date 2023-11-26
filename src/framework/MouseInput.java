@@ -1,5 +1,6 @@
 package framework;
 import core.Camera;
+import core.Game;
 import core.Handler;
 import objects.Spell_Thrown;
 import java.awt.event.MouseAdapter;
@@ -10,10 +11,14 @@ public class MouseInput extends MouseAdapter {
 	
 	private Handler handler;
 	private Camera cam;
+	private Game game;
+	private SpriteSheet ss;
 
-	public MouseInput(Handler handler, Camera cam) {
+	public MouseInput(Handler handler, Camera cam, Game game, SpriteSheet ss) {
 		this.handler = handler;
 		this.cam = cam;
+		this.game = game;
+		this.ss = ss;
 	}
 	
 	public void mousePressed(MouseEvent e) {
@@ -23,8 +28,9 @@ public class MouseInput extends MouseAdapter {
 		for(int i = 0; i < handler.object.size(); i++) {
 			GameObject tempObject = handler.object.get(i);
 			
-			if(tempObject.getId() == ObjectID.Player) {
-				handler.addObject(new Spell_Thrown(tempObject.getX()+12, tempObject.getY()+16, mx, my, ObjectID.Spell_Thrown, handler));
+			if(tempObject.getId() == ObjectID.Player && game.spellCount >= 1) {
+				handler.addObject(new Spell_Thrown(tempObject.getX(), tempObject.getY(), mx, my, ObjectID.Spell_Thrown, handler, ss));
+				game.spellCount--;
 			}
 		}
 	}

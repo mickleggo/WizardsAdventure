@@ -7,13 +7,13 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 
-public class Wall extends GameObject {
+public class Potion extends GameObject {
 	
-	private BufferedImage wall_img;
-
-	public Wall(int x, int y, ObjectID id, SpriteSheet ss) {
+	private BufferedImage potion_img;
+	
+	public Potion(int x, int y, ObjectID id, SpriteSheet ss) {
 		super(x, y, id, ss);
-		wall_img = ss.grabImage(2, 1, 32, 32);
+		potion_img = ss.grabImage(1, 2, 32, 32);
 	}
 	
 	public void tick() {
@@ -21,7 +21,7 @@ public class Wall extends GameObject {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(wall_img, x, y, null);
+		g.drawImage(potion_img, x, y, null);
 	}
 	
 	public Rectangle getBounds() { return new Rectangle(x, y, 32, 32); }

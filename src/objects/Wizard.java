@@ -1,19 +1,22 @@
 package objects;
+import core.Game;
 import core.Handler;
-import framework.GameObject;
-import framework.ObjectID;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import framework.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 
 public class Wizard extends GameObject {
 	
 	Handler handler;
+	Game game;
+	private BufferedImage wizard_img;
 
-	public Wizard(int x, int y, ObjectID id, Handler handler) {
-		super(x, y, id);
+	public Wizard(int x, int y, ObjectID id, Handler handler, Game game, SpriteSheet ss) {
+		super(x, y, id, ss);
 		this.handler = handler;
+		this.game = game;
+		wizard_img = ss.grabImage(2, 3, 32, 32);
 	}
 	
 	public void tick() {
@@ -47,16 +50,28 @@ public class Wizard extends GameObject {
 					y += velY * -1;
 				}
 			}
+			
+			if(tempObject.getId() == ObjectID.Potion) {
+				if(getBounds().intersects(tempObject.getBounds())) {
+					game.spellCount += 10;
+					handler.removeObject(tempObject);
+				}
+			}
+			
+			if(tempObject.getId() == ObjectID.Enemy) {
+				if(getBounds().intersects(tempObject.getBounds())) {
+					game.hp--;
+				}
+			}
 		}
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(x, y, 26, 26);
+		g.drawImage(wizard_img, x, y, null);
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, 26, 26);
+		return new Rectangle(x, y, 32, 32);
 	}
 }
 

@@ -14,10 +14,17 @@ public class Game extends Canvas implements Runnable{
 	
 	private boolean isRunning = false;
 	private BufferedImage level = null;
+	private BufferedImage sprites = null;
+	
+	private BufferedImage floor = null;
+	
+	public int spellCount = 20;
+	public int hp = 100;
 	
 	private Thread thread;
 	private Handler handler;
 	private Camera cam;
+	private SpriteSheet ss;
 	
 	public Game() {
 		new Window(WIDTH, HEIGHT, title, this);
@@ -26,10 +33,16 @@ public class Game extends Canvas implements Runnable{
 		
 		cam = new Camera(0, 0, WIDTH, HEIGHT);
 		this.addKeyListener(new KeyInput(handler));
-		this.addMouseListener(new MouseInput(handler, cam));
 		
 		BufferedImageLoader loader = new BufferedImageLoader();
 		level = loader.loadImage("/testMap.png");
+		sprites = loader.loadImage("/sprites.png");
+		
+		ss = new SpriteSheet(sprites);
+		
+		floor = ss.grabImage(1, 1, 32, 32);
+		
+		this.addMouseListener(new MouseInput(handler, cam, this, ss));
 		
 		loadLevel(level);
 		
@@ -73,15 +86,28 @@ public class Game extends Canvas implements Runnable{
 		
 		/******************************************************************/
 		// Draw to screen
-		
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
-		
+
 		g2d.translate(-cam.getX(), -cam.getY());
+
+		for(int xx = 0; xx < 32*126; xx += 32) {
+			for(int yy = 0; yy < 32*126; yy += 32) {
+				g.drawImage(floor, xx, yy, null);
+			}
+		}
 		
 		handler.render(g);
 		
 		g2d.translate(cam.getX(), cam.getY());
+		
+		g.setColor(Color.GRAY);
+		g.fillRect(5, 5, 200, 32);
+		g.setColor(Color.RED);
+		g.fillRect(5, 5, hp*2, 32);
+		g.setColor(Color.BLACK);
+		g.drawRect(5, 5, 200, 32);
+		
+		g.setColor(Color.WHITE);
+		g.drawString("Spell Energy: " + spellCount, 5, 50);
 		
 		/******************************************************************/
 		
@@ -103,9 +129,10 @@ public class Game extends Canvas implements Runnable{
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel) & 0xff;
 				
-				if(red == 255 && green == 0 && blue == 0) { handler.addObject(new Wall(xx*32, yy*32, ObjectID.Wall)); }
-				if(red == 0 && green == 0 && blue == 255) { handler.addObject(new Wizard(xx*32, yy*32, ObjectID.Player, handler)); }
-				
+				if(red == 255 && green == 0 && blue == 0) { handler.addObject(new Wall(xx*32, yy*32, ObjectID.Wall, ss)); }
+				if(red == 0 && green == 0 && blue == 255) { handler.addObject(new Wizard(xx*32, yy*32, ObjectID.Player, handler, this, ss)); }
+				if(red == 255 && green == 255 && blue == 0) { handler.addObject(new Enemy(xx*32, yy*32, ObjectID.Enemy, handler, ss)); }
+				if(red == 128 && green == 255 && blue == 255) { handler.addObject(new Potion(xx*32, yy*32, ObjectID.Potion, ss)); }
 			}
 		}
 	}
@@ -117,6 +144,7 @@ public class Game extends Canvas implements Runnable{
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
+		int updates = 0;
 		int frames = 0;
 		
 		while(isRunning) {
@@ -125,7 +153,7 @@ public class Game extends Canvas implements Runnable{
 			lastTime = now;
 			while(delta >= 1) {
 				tick();
-				//updates++;
+				updates++;
 				delta--;
 			}
 			render();
@@ -133,9 +161,11 @@ public class Game extends Canvas implements Runnable{
 			
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
+				System.out.println("FPS: " + frames + " || TICKS: " + updates);
 				frames = 0;
-				//updates = 0;
+				updates = 0;
 			}
+			
 		}
 		
 		stop();

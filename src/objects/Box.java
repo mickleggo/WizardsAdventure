@@ -3,12 +3,13 @@ import java.awt.*;
 
 import framework.GameObject;
 import framework.ObjectID;
+import framework.SpriteSheet;
 
 
 public class Box extends GameObject {
 	
-	public Box (int x, int y, ObjectID id) {
-		super(x, y, id);
+	public Box (int x, int y, ObjectID id, SpriteSheet ss) {
+		super(x, y, id, ss);
 	}
 	
 	public void tick() {
